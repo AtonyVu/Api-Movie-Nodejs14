@@ -1,14 +1,14 @@
 const { check } = require("express-validator");
 
 const checksignIn = [
-  check("taiKhoan").not().isEmpty(),
-  check("email").normalizeEmail().isEmail(),
+  check("taiKhoan", "Không đươc bỏ trống").not().isEmpty(),
+  check("email", "Không Đúng Định dạng Email").normalizeEmail().isEmail(),
   check("password", "mật khẩu phải có ít nhất 10 từ").isLength({ min: 10 }),
-  check("phone").isMobilePhone(),
-  check("hoTen").not().isEmpty(),
+  check("phone", "Không đúng định dạng SDT").isMobilePhone(),
+  check("hoTen", "không được bỏ trống").not().isEmpty(),
 ];
 const checkLogin = [
-  check("email").normalizeEmail().isEmail(),
-  check("password").isLength({ min: 10 }),
+  check("email", "Không Đúng Định dạng Email").normalizeEmail().isEmail(),
+  check("password", "mật khẩu phải có ít nhất 10 từ").isLength({ min: 10 }),
 ];
 module.exports = { checksignIn, checkLogin };

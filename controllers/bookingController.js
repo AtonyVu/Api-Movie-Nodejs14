@@ -1,5 +1,5 @@
-const LichChieu = require("../models/LC-model");
-const Ticket = require("../models/ticket.model");
+const LichChieu = require("../models/showTimesmodel");
+const Ticket = require("../models/ticketModel");
 const User = require("../models/UserModel");
 const moment = require("moment");
 const Movie = require("../models/movieModel");

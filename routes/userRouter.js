@@ -15,27 +15,25 @@ const {
   getUserType,
   paginationUser,
   searchUser,
-  searchPagaUser,
   register,
   login,
 } = usersController;
 router.post("/signIn", checksignIn, register);
 router.post("/login", checkLogin, login);
 
-router.delete("/:id", auth, test, deleteUser);
-
-router.get("/:id", auth, test, getUserByID);
-router.put("/:id", auth, test, updateUser);
+router
+  .route("/:id")
+  .delete(auth, test, deleteUser)
+  .get(auth, test, getUserByID)
+  .patch(auth, test, updateUser);
 
 router.post("/", auth, test, checkDataUser, createUser);
-module.exports = router;
 
-router.get("/listUser", auth, test, getListUser);
-
+router.route("/listUser/all").get(auth, test, getListUser);
 router.get("/listUser/:type", auth, test, getUserType);
 
 router.get("/listUser/page/:page", auth, test, paginationUser);
 
 router.get("/listUser/search/:tuKhoa", auth, test, searchUser);
 
-router.get("/listUser/search/:tuKhoa/:page", auth, test, searchPagaUser);
+module.exports = router;

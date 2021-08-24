@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/UserModel");
+const Ticket = require("../models/ticketModel");
 const ObjectId = require("mongoose").Types.ObjectId;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -39,7 +40,7 @@ const register = async (req, res) => {
   );
   res.status(201).json({ token: token, id: createdUser.id });
 };
-// Tạo tài khoản
+
 const createUser = async (req, res) => {
   const errors = validationResult(req);
 
@@ -92,11 +93,12 @@ const login = async (req, res) => {
     "supersecretkey",
     { expiresIn: "2h" }
   );
-
+  const tickets = await Ticket.find({ creator: checkUser.id });
   res.status(200).json({
     id: checkUser.id,
     token: token,
     data: checkUser,
+    thongTinDatve: tickets,
   });
 };
 const getListUser = async (req, res) => {
@@ -204,10 +206,14 @@ const getUserByID = async (req, res) => {
 
   try {
     const user = await User.findById(id);
+    const tickets = await Ticket.find({ creator: id });
     if (!user)
       return res.status(404).json("Không có tài khoản nào thuộc ID bạn tìm!");
     console.log(user.password);
-    res.status(200).json(user);
+    res.status(200).json({
+      data: user,
+      thongTinDatve: tickets,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
