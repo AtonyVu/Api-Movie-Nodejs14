@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const ObjectId = require("mongoose").Types.ObjectId;
 const LichChieu = require("../models/LC-model");
-const ThongTinRap = require("../models/CinemaModel");
+const ThongTinRap = require("../models/cinemaModel");
 
 // Lấy thông tin hệ thống rạp
 
