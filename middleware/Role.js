@@ -1,7 +1,8 @@
 const User = require("../models/UserModel");
 module.exports = async function (req, res, next) {
   const { user } = req;
-  const typeUser = await User.findOne({ _id: user.userId });
+  console.log(user);
+  const typeUser = await User.findOne({ _id: user.id });
   if (typeUser.type == "ADMIN") {
     return next();
   } else {

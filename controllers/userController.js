@@ -7,12 +7,11 @@ const jwt = require("jsonwebtoken");
 const register = async (req, res) => {
   const errors = validationResult(req);
 
-  if (!errors.isEmpty())
-    return res.status(400).json("Data gửi lên nó thiếu thiếu gì đấy @@");
+  if (!errors.isEmpty()) return res.status(400).json(errors);
 
   const { taiKhoan, password, email, phone, hoTen } = req.body;
-  let existingUser = await User.findOne({ email: email });
-  if (existingUser) return res.status(400).json("Email đã có người đăng kí");
+  let checkUser = await User.findOne({ email: email });
+  if (checkUser) return res.status(400).json("Email đã có người đăng kí");
 
   let existingAccount = await User.findOne({ taiKhoan: taiKhoan });
   if (existingAccount)
@@ -34,11 +33,11 @@ const register = async (req, res) => {
 
   let token;
   token = jwt.sign(
-    { userId: createdUser.id, email: createdUser.email },
+    { id: createdUser.id, email: createdUser.email },
     "supersecretkey",
     { expiresIn: "2h" }
   );
-  res.status(201).json({ token: token, userId: createdUser.id });
+  res.status(201).json({ token: token, id: createdUser.id });
 };
 // Tạo tài khoản
 const createUser = async (req, res) => {
@@ -48,8 +47,8 @@ const createUser = async (req, res) => {
   const { taiKhoan, password, email, phone, maNhom, type, hoTen, creator } =
     req.body;
 
-  let existingUser = await User.findOne({ email: email });
-  if (existingUser) return res.status(400).json("Email đã tồn tại");
+  let checkUser = await User.findOne({ email: email });
+  if (checkUser) return res.status(400).json("Email đã tồn tại");
 
   let existingAccount = await User.findOne({ taiKhoan: taiKhoan });
   if (existingAccount) return res.status(400).json("Tài khoản đã tồn tại");
@@ -75,29 +74,29 @@ const createUser = async (req, res) => {
 // 2) Đăng nhập tài khoản
 const login = async (req, res) => {
   const { email, password } = req.body;
-  let existingUser;
+  let checkUser;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    checkUser = await User.findOne({ email: email });
   } catch (err) {}
 
-  if (!existingUser) return res.status(200).json("Sai thông tin đăng nhập!");
+  if (!checkUser) return res.status(200).json("Sai thông tin đăng nhập!");
 
-  let isValidPassword = await bcrypt.compare(password, existingUser.password);
+  let isValidPassword = await bcrypt.compare(password, checkUser.password);
 
   if (!isValidPassword)
     return res.status(400).json("Mật khẩu sai, không thể đăng nhập");
 
   const token = jwt.sign(
-    { userId: existingUser.id, email: existingUser.email },
+    { id: checkUser.id, email: checkUser.email },
     "supersecretkey",
     { expiresIn: "2h" }
   );
 
   res.status(200).json({
+    id: checkUser.id,
     token: token,
-    userId: existingUser.id,
-    existingUser: existingUser,
+    data: checkUser,
   });
 };
 const getListUser = async (req, res) => {
@@ -182,12 +181,12 @@ const paginationUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const userID = req.params.userID;
-  if (!ObjectId.isValid(userID))
+  const id = req.params.id;
+  if (!ObjectId.isValid(id))
     return res.status(400).json({ error: "ID không tồn tại" });
 
   try {
-    const user = await User.findById(userID);
+    const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "ID không tồn tại" });
 
     await user.remove();
@@ -199,12 +198,12 @@ const deleteUser = async (req, res) => {
 };
 // Thông tin tài khoản
 const getUserByID = async (req, res) => {
-  const userID = req.params.userID;
-  if (!ObjectId.isValid(userID))
+  const id = req.params.id;
+  if (!ObjectId.isValid(id))
     return res.status(400).json({ error: "ID không hợp lệ" });
 
   try {
-    const user = await User.findById(userID);
+    const user = await User.findById(id);
     if (!user)
       return res.status(404).json("Không có tài khoản nào thuộc ID bạn tìm!");
     console.log(user.password);
@@ -220,10 +219,10 @@ const updateUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   const { maNhom, type, phone, hoTen, password } = req.body;
   let hashedPassword = await bcrypt.hash(password, 12);
-  const userID = req.params.userID;
+  const id = req.params.id;
 
   try {
-    const user = await User.findById(userID);
+    const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "user not found." });
 
     const update = await user.updateOne(

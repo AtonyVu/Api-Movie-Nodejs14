@@ -1,21 +1,40 @@
 const LichChieu = require("../models/LC-model");
 const Ticket = require("../models/ticket.model");
 const User = require("../models/UserModel");
+const moment = require("moment");
 const Movie = require("../models/movieModel");
 const { validationResult } = require("express-validator");
 const ObjectId = require("mongoose").Types.ObjectId;
+const { checkData } = require("../Validation/movieValidator");
 // Tạo lịch chiếu
 const createLC = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return res.status(400).json({ errors: errors.array() });
 
-  const { maRap, giaVe, maPhim, ngayGioKhoiChieu, idNguoitao } = req.body;
+  const { maRap, giaVe, maPhim, ngayGioKhoiChieu, creator } = req.body;
 
   if (!ObjectId.isValid(maPhim))
     return res.status(400).json({ error: "ID không hợp lệ" });
-
-  let existingUser = await User.findOne({ _id: idNguoitao });
+  const formats = [
+    "YYYY-MM-DD LT",
+    "YYYY-MM-DD h:mm:ss A",
+    "YYYY-MM-DD HH:mm:ss",
+    "YYYY-MM-DD HH:mm",
+  ];
+  const checkDate = moment(
+    ngayGioKhoiChieu,
+    formats,
+    "YYYY-MM-DD LT",
+    true
+  ).isValid();
+  console.log(checkDate);
+  if (!checkDate) {
+    return res
+      .status(400)
+      .json({ error: "Ngày Giờ Không hợp lệ định dạng YY-MM-DD hh-mm-ss" });
+  }
+  let existingUser = await User.findOne({ _id: creator });
   let existingMovie = await Movie.findOne({ _id: maPhim });
 
   if (!existingMovie)
@@ -28,7 +47,7 @@ const createLC = async (req, res) => {
     giaVe,
     maPhim,
     ngayGioKhoiChieu,
-    idNguoitao,
+    creator,
   });
   try {
     await LC.save();
@@ -45,9 +64,9 @@ const createTicket = async (req, res) => {
   if (!errors.isEmpty())
     return res.status(400).json({ errors: errors.array() });
 
-  const { maGhe, giaVe, idNguoitao, maLichChieu } = req.body;
+  const { maGhe, giaVe, creator, maLichChieu } = req.body;
 
-  let existingUser = await User.findOne({ _id: idNguoitao });
+  let existingUser = await User.findOne({ _id: creator });
   let existingLC = await LichChieu.findOne({ _id: maLichChieu });
   let existingGhe = await Ticket.findOne({ maGhe: maGhe });
   console.log(existingGhe);
@@ -60,7 +79,7 @@ const createTicket = async (req, res) => {
   const ticket = new Ticket({
     maGhe,
     giaVe,
-    idNguoitao,
+    creator,
     maLichChieu,
   });
   try {
