@@ -6,6 +6,8 @@ const ticketSchema = new Schema(
   {
     maGhe: { type: String, required: true },
     giaVe: { type: String, required: true },
+    creator: { type: String, required: true },
+    maLichChieu: { type: String, required: true },
   },
   { timestamps: true }
 );
