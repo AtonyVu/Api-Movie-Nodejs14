@@ -27,8 +27,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/api/users", usersRoutes);
-app.use("/api/movie", movieRoutes);
-app.use("/api/lc", lcRoutes);
-app.use("/api/quanLyRap", quanLyRap);
+app.use("/api/v1/users", usersRoutes);
+app.use("/api/v1/movie", movieRoutes);
+app.use("/api/v1/lichchieu", lcRoutes);
+app.use("/api/v1/quanLyRap", quanLyRap);
 module.exports = app;
