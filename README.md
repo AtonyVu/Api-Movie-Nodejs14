@@ -1,8 +1,8 @@
 - Tên : Võ Thành Luân
 - Email:Luancauthu@gmail.com
 - SDT: 0933260891
-**Link GitHub:  https://github.com/luancauthu2907/Api-Movie-Nodejs14
-**Link Heroku : https://api-movie-bc03.herokuapp.com
+- **Link GitHub:  https://github.com/luancauthu2907/Api-Movie-Nodejs14
+- **Link Heroku : https://api-movie-bc03.herokuapp.com
 
                 DATA MẪU 
 - Thêm key  x-auth-token:nội dung là token  vào header để sử dụng được chức năng của admin
