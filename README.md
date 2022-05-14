@@ -1,8 +1,8 @@
 -Tên : Võ Thành Luân
 -Email:Luancauthu@gmail.com
 -SDT: 0933260891
-****Link GitHub:  https://github.com/luancauthu2907/Api-Movie-Nodejs14
-****Link Heroku : https://api-movie-bc03.herokuapp.com
+**Link GitHub:  https://github.com/luancauthu2907/Api-Movie-Nodejs14
+**Link Heroku : https://api-movie-bc03.herokuapp.com
 
                 DATA MẪU 
 -Thêm key  x-auth-token:nội dung là token  vào header để sử dụng được chức năng của admin
@@ -16,7 +16,7 @@
 -Tạo Lịch Chiếu : {"maRap":"LT1","giaVe": "3000","maPhim": "6121f0306a3274581c492308","ngayGioKhoiChieu": "2014-12-13 12:34","creator": "6121ea4be4173b08b897d393"}
 
 
-////////////////////////////////////////////////// QUẢN LÍ PHIM
+                QUẢN LÍ PHIM
  -Lấy danh sách phim                                           https://api-movie-bc03.herokuapp.com/api/v1/movie/                       GET
  -Lấy danh sách phim phân trang                                https://api-movie-bc03.herokuapp.com/api/v1/movie/page/:page             GET             
  -Thêm phim                                                    https://api-movie-bc03.herokuapp.com/api/v1/movie/                       POST           
@@ -26,13 +26,13 @@
 
 
 
-///////////////////////////////////////////////// QUẢN LÍ ĐẶT VÉ 
+                    QUẢN LÍ ĐẶT VÉ 
 - Đặt vé                                                      https://api-movie-bc03.herokuapp.com/api/v1/lichchieu/datve                      POST            
 - Lấy danh sách phòng vé                                      https://api-movie-bc03.herokuapp.com/api/v1/lichchieu/GetLichChieu/:id           GET            
 - Tạo lịch chiếu                                              https://api-movie-bc03.herokuapp.com/api/v1/lichchieu//TaoLichChieu              POST                 
 
 
-//////////////////////////////////////////////////QUẢN LÍ USER 
+                    QUẢN LÍ USER 
  -Đăng nhập                                                   https://api-movie-bc03.herokuapp.com/api/v1/users/login                                  POST       
  -Đăng kí                                                     https://api-movie-bc03.herokuapp.com/api/v1/users/signIn                                 POST  
  -Thông tin tài khoản                                         https://api-movie-bc03.herokuapp.com/api/v1/users/:id                                    GET   
@@ -46,7 +46,7 @@
  -Xoá người dùng                                              https://api-movie-bc03.herokuapp.com/api/v1/users/:id                                    DELETE
 
 
-////////////////////////////////////////////////// QUẢN LÍ RẠP 
+                   QUẢN LÍ RẠP 
 - Lấy thông tin hệ thống rạp                                 https://api-movie-bc03.herokuapp.com/api/v1/quanLyRap/thongtinrap                         GET
 - Lấy thông tin lịch chiêú (Theo phim)                       https://api-movie-bc03.herokuapp.com/api/v1/quanLyRap/thongTinLichChieuRap/:id            GET
 - Lấy thông tin lịch chiếu phim (Theo rạp)                   https://api-movie-bc03.herokuapp.com/api/v1/quanLyRap/thongTinLichChieuPhim/:id           GET  
