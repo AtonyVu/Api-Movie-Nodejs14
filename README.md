@@ -6,6 +6,7 @@
 
                 DATA MẪU 
 - Thêm key  x-auth-token:nội dung là token  vào header để sử dụng được chức năng của admin
+- POST ,PATH, UPDATE thì dữ liệu gửi lên thì phải để trong body , dạng object 
 - Thời gian sử dụng Token là 2 tiếng 
 - Tài khoản ADMIN: 
  {"email":"admin12345@gmail.com","password":"admin12345" }
